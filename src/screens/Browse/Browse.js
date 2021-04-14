@@ -1,8 +1,18 @@
-import React from 'react';
-import { View, TextInput, StyleSheet, Text } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'
-
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, StyleSheet, Text, FlatList, SafeAreaView } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { getProducts } from '../../helpers';
+const users = getProducts()
 export const  Browse = ({ navigation }) => {
+	const [content, setContent] = useState(users);
+
+	const Item = ({ name, username, email}) => (
+		<View >
+			<Text>{name}</Text>
+			<Text>{username}</Text>
+			<Text>{email}</Text>
+		</View>
+	);
 	return (
 		<View style={styles.container} >
 			<View style={styles.searchContainer}>
@@ -14,9 +24,27 @@ export const  Browse = ({ navigation }) => {
 				<AntDesign name="filter" size={38} color="#A0A4B1" />
 			</View>
 			<View style={styles.content}>
-				<Text>
+			{content.length === 0 ?
+			(	<Text>
 					Serch content
-				</Text>
+				</Text>)
+				:
+				(<SafeAreaView>
+					<FlatList 
+						data={content}
+						renderItem={
+							({ item }) => (
+								<Item 
+									name={item.name}
+									email={item.email}
+									username={item.username}
+								/>
+							)
+						}
+						keyExtractor={item => item.id}
+					/>
+				</SafeAreaView>)
+			}
 			</View>
 		</View>
 	);
