@@ -13,7 +13,7 @@ export const  Browse = ({ navigation }) => {
 	}, [value, setValue])
 
 	const onSearch = () => {
-		setContent(prevContent => prevContent.filter(item => item.title.split(' ')[0].includes(value)))
+		setContent(prevContent => prevContent.filter(item => item.title.split(' ')[0].toUpperCase().includes(value.toUpperCase())))
 	}
 
 	const Item = ({ title, body}) => {
@@ -109,11 +109,16 @@ const styles = StyleSheet.create({
 	listItem: {
 		marginVertical: 10,
 		marginHorizontal: 20,
-		width:120,
+		width:140,
+		alignItems: 'center',
+		borderWidth: 2,
+		borderColor: '#A0A4B1',
+		borderRadius: 10,
 	},
 
 	listTitle: {
 		fontSize: 24,
-		paddingBottom: 10
+		// paddingBottom: 10,
+		borderBottomWidth: 1,
 	}
 })

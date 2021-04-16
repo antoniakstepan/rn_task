@@ -1,7 +1,27 @@
-import React from 'react';
-import { View, TextInput, StyleSheet, Text } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, TextInput, StyleSheet, Text, FlatList, StatusBar } from 'react-native';
+import { getProducts } from '../../helpers';
 
 export const  Saved = ({ navigation }) => {
+	const [content, setContent] = useState([]);
+	const [value, setValue] = useState('')
+	useEffect(() => {
+		getProducts().then(result => {
+			return setContent(result)
+		})
+	}, [value, setValue])
+
+	const onSearch = () => {
+		setContent(prevContent => prevContent.filter(item => item.title.split(' ')[0].toUpperCase().includes(value.toUpperCase())))
+	}
+
+	const Item = ({ title, body}) => {
+		return (
+		<View style={styles.listItem}>
+			<Text style={styles.listTitle}>{title.split(' ')[0]}</Text>
+			<Text>{body}</Text>
+		</View>
+	)};
 	return (
 		<View style={styles.container} >
 			<View style={styles.searchContainer}>
@@ -9,12 +29,38 @@ export const  Saved = ({ navigation }) => {
 					style={styles.input}
 					placeholder="Search"
 					placeholderTextColor="#A0A4B1"
+					returnKeyType='done'
+					onSubmitEditing={(e) => {
+						if(e.target.returnKeyType === 'done') {
+							onSearch()
+						}
+					}}
 				/>
 			</View>
 			<View style={styles.content}>
-				<Text>
-					Serch content
-				</Text>
+			<View style={styles.content}>
+			{content.length === 0 ?
+			(	<Text style={styles.empty}>
+					Saved content
+				</Text>)
+				:
+				(	<FlatList 
+						data={content}
+						renderItem={
+							({ item }) => (
+								<Item 
+									title={item.title}
+									body={item.body}
+								/>
+							)
+						}
+						keyExtractor={(item)=> item.id.toString()}
+						bounces={false}
+						numColumns={2}
+					/>
+			)
+			}
+			</View>
 			</View>
 		</View>
 	);
@@ -51,5 +97,31 @@ const styles = StyleSheet.create({
 		paddingTop: '100%',
 		justifyContent: 'center',
 		alignItems: 'center',
-	}
+	},
+
+	areaWiew: {
+		flex: 1,
+		paddingTop: StatusBar.currentHeight,
+	},
+
+	listItem: {
+		marginVertical: 10,
+		marginHorizontal: 20,
+		width:140,
+		alignItems: 'center',
+		borderWidth: 2,
+		borderColor: '#A0A4B1',
+		borderRadius: 10,
+	},
+
+	listTitle: {
+		fontSize: 24,
+		// paddingBottom: 10,
+		borderBottomWidth: 1,
+	},
+	content: {
+		// paddingTop: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 });
