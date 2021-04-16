@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, Text, FlatList, SafeAreaView } from 'react-native';
+import { View, TextInput, StyleSheet, Text, FlatList, StatusBar, TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { getProducts } from '../../helpers';
-const users = getProducts()
-export const  Browse = ({ navigation }) => {
-	const [content, setContent] = useState(users);
 
-	const Item = ({ name, username, email}) => (
-		<View >
-			<Text>{name}</Text>
-			<Text>{username}</Text>
-			<Text>{email}</Text>
+export const  Browse = ({ navigation }) => {
+	const [content, setContent] = useState([]);
+	const [value, setValue] = useState('')
+	useEffect(() => {
+		getProducts().then(result => {
+			return setContent(result)
+		})
+	}, [value, setValue])
+
+	const onSearch = () => {
+		setContent(prevContent => prevContent.filter(item => item.title.split(' ')[0].includes(value)))
+	}
+
+	const Item = ({ title, body}) => {
+		return (
+		<View style={styles.listItem}>
+			<Text style={styles.listTitle}>{title.split(' ')[0]}</Text>
+			<Text>{body}</Text>
 		</View>
-	);
+	)};
 	return (
 		<View style={styles.container} >
 			<View style={styles.searchContainer}>
@@ -20,30 +30,34 @@ export const  Browse = ({ navigation }) => {
 					style={styles.input}
 					placeholder="Search"
 					placeholderTextColor="#A0A4B1"
+					value={value}
+					onChangeText={text => setValue(text)}
 				/>
-				<AntDesign name="filter" size={38} color="#A0A4B1" />
+				<TouchableOpacity onPress={() => onSearch()}>
+					<AntDesign name="filter" size={38} color="#A0A4B1" />	
+				</TouchableOpacity>
 			</View>
 			<View style={styles.content}>
 			{content.length === 0 ?
-			(	<Text>
+			(	<Text style={styles.empty}>
 					Serch content
 				</Text>)
 				:
-				(<SafeAreaView>
-					<FlatList 
+				(	<FlatList 
 						data={content}
 						renderItem={
 							({ item }) => (
 								<Item 
-									name={item.name}
-									email={item.email}
-									username={item.username}
+									title={item.title}
+									body={item.body}
 								/>
 							)
 						}
-						keyExtractor={item => item.id}
+						keyExtractor={(item)=> item.id.toString()}
+						bounces={false}
+						numColumns={2}
 					/>
-				</SafeAreaView>)
+			)
 			}
 			</View>
 		</View>
@@ -79,8 +93,27 @@ const styles = StyleSheet.create({
 	},
 
 	content: {
-		paddingTop: '100%',
+		// paddingTop: '100%',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+
+	flatContainer: {
+		
+	},
+	areaWiew: {
+		flex: 1,
+		paddingTop: StatusBar.currentHeight,
+	},
+
+	listItem: {
+		marginVertical: 10,
+		marginHorizontal: 20,
+		width:120,
+	},
+
+	listTitle: {
+		fontSize: 24,
+		paddingBottom: 10
 	}
 })

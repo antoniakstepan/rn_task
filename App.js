@@ -4,12 +4,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Login } from './src/screens/Login/Login';
 import Navigator from './src/navigation/component/Navigator';
 import { NavigationContainer } from '@react-navigation/native';
+import { observer, Provider } from 'mobx-react';
+import { rootStore } from './src/store/rootStore';
 
-export default function App() {
+function App({store}) {
   return (
+    <Provider>
       <NavigationContainer>
-        <Navigator />
+        <Navigator store={store}/>
       </NavigationContainer>
+    </Provider>
+  
   );
 }
 
@@ -21,3 +26,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+export default observer((rootStore) => <App store={rootStore}/>)
