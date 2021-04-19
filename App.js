@@ -4,17 +4,17 @@ import Navigator from './src/navigation/component/Navigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react';
 import { useStore } from './src/store/rootStore';
-import { Provider} from './src/store/rootStore';
+import { StateProvider} from './src/store/rootStore';
 
 
 
-const App = observer(() => { 
+const App = () => { 
   return (
     <NavigationContainer>
       <Navigator/>
     </NavigationContainer>
   );
-})
+}
 
 // const styles = StyleSheet.create({
 //   container: {
@@ -24,10 +24,13 @@ const App = observer(() => {
 //     justifyContent: 'center',
 //   },
 // });
-const Wrap = () => (
-  <Provider>
-    <App />
-  </Provider>
-)
+// const Wrap = observer(() => (
+//   <StateProvider>
+//     <NavigationContainer>
+//       <Navigator/>
+//     </NavigationContainer>
+//   </StateProvider>
+//  )
+//  )
 
-export default Wrap
+export default App

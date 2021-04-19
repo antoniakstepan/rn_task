@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet, Text, FlatList, StatusBar, TouchableOpacit
 import { AntDesign } from '@expo/vector-icons';
 import { getProducts } from '../../helpers';
 import { useStore } from '../../store/rootStore';
+import { observer } from 'mobx-react'
 
 
 
