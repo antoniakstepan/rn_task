@@ -1,11 +1,11 @@
-import { AsyncStorage } from "react-native";
+import React from "react";
 import { types, onSnapshot } from "mobx-state-tree";
 // import { TodoLIstModal } from "./TodoStore";
 // import { GroupLIstModal } from "./GroupStore";
 // import { autorun } from "mobx";
-import createPersist from "./persist";
+// import createPersist from "./persist";
 import { GoodStoreList } from './GoodStore';
-// import Api from "../api/api";
+import { useLocalStore } from "mobx-react-lite";
 
 export const RootStore = types.model("RootStore", {
   goodsLetest: types.optional(GoodStoreList, {})
@@ -14,15 +14,20 @@ export const RootStore = types.model("RootStore", {
 export const rootStore = RootStore.create({});
 onSnapshot(rootStore, (snapshot) => prettyPrint(snapshot));
 
-// rootStore.todos.getTodos().then(async () => {
-//   // await rootStore.todos.list[0].toggleFavorite();
-//   console.log("sss");
-// });
+const storeContext = React.createContext<RootStore | null>(null)
 
-// rootStore.goodsLetest.getList().then(async () => {
-//     await rootStore.goodsLetest
-//     console.log('sss')
-// })
-// const persist = createPersist(rootStore, AsyncStorage );
+export const Provider = ({children}) => {
+  const store = useLocalStore(rootStore)
 
-// persist.rehydrate();
+  return <storeContext.Provider value={store}>{children}</storeContext.Provider>
+}
+
+export const useStore = () => {
+  const store = React.useContext(storeContext)
+  
+  if(!store) {
+    throw new Error('useStore must be used within a StoreProvider.')
+  }
+
+  return store;
+}

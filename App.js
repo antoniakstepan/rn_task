@@ -1,31 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Login } from './src/screens/Login/Login';
+// import { StyleSheet } from 'react-native';
 import Navigator from './src/navigation/component/Navigator';
 import { NavigationContainer } from '@react-navigation/native';
-import { observer, Provider } from 'mobx-react';
-import { rootStore } from './src/store/rootStore';
+import { observer } from 'mobx-react';
+import { useStore } from './src/store/rootStore';
+import { Provider} from './src/store/rootStore';
 
-function App({store}) {
+
+
+const App = observer(() => { 
   return (
-    <Provider>
-      <NavigationContainer>
-        <Navigator store={store}/>
-      </NavigationContainer>
-    </Provider>
-  
+    <NavigationContainer>
+      <Navigator/>
+    </NavigationContainer>
   );
-}
+})
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
+const Wrap = () => (
+  <Provider>
+    <App />
+  </Provider>
+)
 
-
-export default observer((rootStore) => <App store={rootStore}/>)
+export default Wrap

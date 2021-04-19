@@ -15,7 +15,7 @@ import ProfileTab from './ProfileTab';
 
 const Stack = createStackNavigator()
 
-function Navigator() {
+function Navigator({store}) {
 	return (
 		<Stack.Navigator initialRouteName={Auth}>
 			<Stack.Screen name="Auth" component={Auth} options={{

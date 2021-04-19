@@ -2,19 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, FlatList, StatusBar, TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { getProducts } from '../../helpers';
+import { useStore } from '../../store/rootStore';
+
+
 
 export const  Browse = ({ navigation }) => {
 	const [content, setContent] = useState([]);
-	const [value, setValue] = useState('')
+	const [value, setValue] = useState('');
+
 	useEffect(() => {
 		getProducts().then(result => {
 			return setContent(result)
 		})
-	}, [value, setValue])
+	}, [value, setValue]);
 
 	const onSearch = () => {
 		setContent(prevContent => prevContent.filter(item => item.title.split(' ')[0].toUpperCase().includes(value.toUpperCase())))
-	}
+	};
 
 	const Item = ({ title, body}) => {
 		return (

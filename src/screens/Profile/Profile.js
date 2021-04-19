@@ -1,7 +1,25 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 
 export const  Profile = ({ navigation }) => {
+
+	const onAlert = () => 	{
+		Alert.alert(
+			'Reale you want logout',
+			'Some text about logout',
+			[
+				{
+					text: 'Ok',
+					onPress: () => navigation.navigate('Login')
+				},
+				{
+					text: 'Cancel',
+					style: 'cancel',
+				}
+			]
+		)
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -57,7 +75,7 @@ export const  Profile = ({ navigation }) => {
 					</Text>
 				</View>
 			</View>
-			<TouchableOpacity onPress={() => navigation.navigate('Login')}>
+			<TouchableOpacity onPress={() => onAlert()}>
 				<View style={styles.logOut}>
 					<ImageBackground
 						style={styles.logOutPhoto}

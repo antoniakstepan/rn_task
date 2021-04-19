@@ -5,6 +5,7 @@ import { Saved } from '../../screens/Saved/Saved';
 import { Inbox } from '../../screens/Inbox/Inbox';
 import { Profile } from '../../screens/Profile/Profile';
 import { AntDesign , Ionicons, Entypo, Fontisto} from '@expo/vector-icons';
+import { Post } from '../../screens/Post/Post';
 const Tab = createBottomTabNavigator();
 
 const ProfileTab = () => {
@@ -18,7 +19,8 @@ const ProfileTab = () => {
 					tabBarIcon: ({}) => (
 						<AntDesign name="search1" size={24} color="#A0A4B1"/>
 					),
-					tabBarLabel: "Browse"
+					tabBarLabel: "Browse",
+					
 				}}
 			/>
 			<Tab.Screen 
@@ -32,13 +34,24 @@ const ProfileTab = () => {
 				}}
 			/>
 			<Tab.Screen 
+				name="Post"
+				component={Post}
+				options={{
+					tabBarIcon: () => (
+						<AntDesign name="pluscircle" size={56} color="#349A89" />
+					),
+					tabBarLabel: '',
+				}}
+				
+			/>
+			<Tab.Screen 
 				name="Inbox" 
 				component={Inbox}
 				options={{
 					tabBarIcon: ({}) => (
 						<Fontisto name="mobile-alt" size={24} color="#A0A4B1"/>
 					),
-					tabBarLabel: "Browse"
+					tabBarLabel: "Inbox"
 				}}
 			/>
 			<Tab.Screen 
@@ -54,5 +67,7 @@ const ProfileTab = () => {
 		</Tab.Navigator>
 	);
 }
+
+
 
 export default ProfileTab;
