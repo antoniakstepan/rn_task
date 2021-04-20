@@ -1,7 +1,5 @@
 import React from "react";
 import { types, onSnapshot } from "mobx-state-tree";
-// import { autorun } from "mobx";
-// import createPersist from "./persist";
 import { GoodStoreList } from './GoodStore';
 import { useLocalObservable } from "mobx-react";
 

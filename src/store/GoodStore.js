@@ -20,8 +20,7 @@ export const GoodStoreList = types.model("GoodStore",  {
 .actions((store) => ({
 	getList: flow(function* getList() {
 		try {
-			const getItem = yield getProducts().then(item )
-			store.list = [...getItem];
+			store.list = yield getProducts()
 		} catch (err) {
 			console.log(err)
 		}
