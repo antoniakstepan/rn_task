@@ -9,8 +9,5 @@ const request = async (url) => {
   });
 };
 
-export const getProducts = () => request('posts')
-.then(value =>  value)
-
-console.log(getProducts())
+export const getProducts = () => request('posts');
 

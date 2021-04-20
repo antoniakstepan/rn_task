@@ -3,19 +3,22 @@ import { View, TextInput, StyleSheet, Text, FlatList, StatusBar, TouchableOpacit
 import { AntDesign } from '@expo/vector-icons';
 import { getProducts } from '../../helpers';
 import { useStore } from '../../store/rootStore';
-import { observer } from 'mobx-react'
-
-
+import { observer } from 'mobx-react';
 
 export const  Browse = ({ navigation }) => {
+	const store = useStore()
+
 	const [content, setContent] = useState([]);
 	const [value, setValue] = useState('');
 
+
+ 
+ console.log(store.goodsLetest.list)
 	useEffect(() => {
-		getProducts().then(result => {
-			return setContent(result)
-		})
-	}, [value, setValue]);
+		store.goodsLetest.getList()
+		console.log(store.goodsLetest.list)
+		setContent(store.goodsLetest.list)
+	}, []);
 
 	const onSearch = () => {
 		setContent(prevContent => prevContent.filter(item => item.title.split(' ')[0].toUpperCase().includes(value.toUpperCase())))
@@ -67,7 +70,7 @@ export const  Browse = ({ navigation }) => {
 			</View>
 		</View>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	container: {
@@ -98,7 +101,6 @@ const styles = StyleSheet.create({
 	},
 
 	content: {
-		// paddingTop: '100%',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

@@ -1,29 +1,30 @@
-import React from "react";
+import React, {createContext, useContext} from "react";
 import { types, onSnapshot } from "mobx-state-tree";
 import { GoodStoreList } from './GoodStore';
-import { useLocalObservable } from "mobx-react";
+import { values } from "mobx";
 
 export const RootStore = types.model("RootStore", {
   goodsLetest: types.optional(GoodStoreList, {})
 });
 
-export const rootStore = RootStore.create({});
-onSnapshot(rootStore, (snapshot) => prettyPrint(snapshot));
 
-const storeContext = React.createContext({})
+export const createStore = () => {
+  const rootStore = RootStore.create()
 
-export const StateProvider = ({children}) => {
-  const store = useLocalObservable({})
-
-  return <storeContext.Provider value={store}>{children}</storeContext.Provider>
+  return rootStore;
 }
 
-export const useStore = () => {
-  const store = React.useContext(storeContext)
-  
-  if(!store) {
-    throw new Error('useStore must be used within a StoreProvider.')
-  }
+// onSnapshot(RootStore, (snapshot) => prettyPrint(snapshot));
 
-  return store;
+const storeContext = createContext(null)
+
+export const Provider = storeContext.Provider
+
+export function useStore(mapStateToProps) {
+  const store = useContext(storeContext)
+
+  if( typeof mapStateToProps === 'function') {
+    return mapStateToProps(store)
+  }
+  return store
 }

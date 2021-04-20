@@ -2,17 +2,18 @@ import React from 'react';
 import Navigator from './src/navigation/component/Navigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react';
-import { useStore } from './src/store/rootStore';
-import { StateProvider} from './src/store/rootStore';
+import { Provider, createStore} from './src/store/rootStore';
 
+const store = createStore()
 
-
-const App = () => { 
+const App = observer(() => { 
   return (
-    <NavigationContainer>
-      <Navigator/>
-    </NavigationContainer>
-  );
-}
+    <Provider value={store}>
+      <NavigationContainer>
+        <Navigator/>
+      </NavigationContainer>
+    </Provider>
+  
+  )})
 
 export default App

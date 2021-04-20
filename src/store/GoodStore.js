@@ -3,15 +3,10 @@ import { getProducts } from '../helpers';
 
 
 export const GoodStoreItem = types.model("GoodStore" , {
-	id: types.string,
-	ownerId: types.string,
-	title: types.string,
-	description: types.string,
-	location: types.string,
-	price: types.string,
-	createdAt: types.number,
-	updateAt: types.null,
-	saved: types.optional(types.boolean, false)
+body: types.optional(types.string, ''),
+title: types.optional(types.string, ''),
+id: types.optional(types.number, 0),
+userId: types.optional(types.number, 0),
 })
 
 export const GoodStoreList = types.model("GoodStore",  {
@@ -20,7 +15,9 @@ export const GoodStoreList = types.model("GoodStore",  {
 .actions((store) => ({
 	getList: flow(function* getList() {
 		try {
-			store.list = yield getProducts()
+			const res = yield getProducts()
+			store.list = res
+			// console.log(store.list)
 		} catch (err) {
 			console.log(err)
 		}
@@ -29,4 +26,5 @@ export const GoodStoreList = types.model("GoodStore",  {
 	filerItem(title) {
 		store.list = store.list.filter(item => item.title.split(' ')[0].toUpperCase().includes(title.toUpperCase()))
 	}
+
 }))
