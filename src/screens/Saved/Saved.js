@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { View, TextInput, StyleSheet, Text, FlatList, StatusBar } from 'react-native';
 import { getProducts } from '../../helpers';
+import { useStore } from '../../store/rootStore';
 
 export const  Saved = ({ navigation }) => {
 	const [content, setContent] = useState([]);
-	const [value, setValue] = useState('')
+	const [value, setValue] = useState('');
+
+	const store = useStore();
+
 	useEffect(() => {
-		getProducts().then(result => {
-			return setContent(result)
-		})
+		store.goodsLetest.getList()
+		setContent(store.goodsLetest.list)
 	}, [value, setValue])
 
 	const onSearch = () => {

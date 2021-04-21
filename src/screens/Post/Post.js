@@ -33,8 +33,21 @@ export const Post = () => {
 				<Text style={styles.priceTitle}>
 					PRICE
 				</Text>
+				<View style={styles.priceWrap}>
 				<View style={styles.priceContent}>
-					
+					<View style={styles.priceLeft}>
+						<Text style={styles.priceLeftText}>Price</Text>
+					</View>
+					<View style={styles.priceRight}>
+						<Text style={styles.priceRightText}>Free</Text>
+					</View>
+				</View>
+				<View style={styles.priceWrapInput}>
+					<TextInput 
+						placeholder="Enter price..."
+						style={styles.priceInput}
+					/>
+				</View>
 				</View>
 			</View>
 		</ScrollView>
@@ -93,5 +106,57 @@ const styles = StyleSheet.create({
 
 	priceTitle: {
 		marginLeft: 20,
-	}
+	},
+	
+	priceWrap: {
+		backgroundColor: 'white',
+	},
+	priceContent: {
+		backgroundColor: 'white',
+		paddingHorizontal: 10,
+		paddingVertical: 15,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderTopWidth: 1,
+		borderTopColor: "#D6D6D6",
+	},
+
+	priceLeftText: {
+		color: 'white'
+	},
+
+	priceLeft: {
+		width: '45%',
+		height: 32,
+		justifyContent: 'center',
+		paddingHorizontal: 10,
+		alignItems: 'center',
+		backgroundColor: '#349A89',
+	},
+
+	priceRight: {
+		width: '45%',
+		height: 32,
+		justifyContent: 'center',
+		paddingHorizontal: 10,
+		alignItems: 'center',
+		borderWidth: 1,
+		borderColor: '#D6D6D6'
+	},
+
+	priceRightText: {
+		color: '#349A89',
+	},
+
+	priceWrapInput: {
+		paddingHorizontal: 20,
+		paddingVertical: 20,
+	},
+	priceInput: {
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		borderColor: '#D6D6D6',
+		borderWidth: 1,
+	},
 })

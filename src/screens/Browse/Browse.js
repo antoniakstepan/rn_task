@@ -11,14 +11,10 @@ export const  Browse = ({ navigation }) => {
 	const [content, setContent] = useState([]);
 	const [value, setValue] = useState('');
 
-
- 
- console.log(store.goodsLetest.list)
 	useEffect(() => {
 		store.goodsLetest.getList()
-		console.log(store.goodsLetest.list)
 		setContent(store.goodsLetest.list)
-	}, []);
+	}, [value, setValue]);
 
 	const onSearch = () => {
 		setContent(prevContent => prevContent.filter(item => item.title.split(' ')[0].toUpperCase().includes(value.toUpperCase())))
